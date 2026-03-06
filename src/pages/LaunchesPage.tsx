@@ -1,4 +1,5 @@
 import useLaunches from "../hooks/useLaunches";
+import LaunchCard from "../components/LaunchCard";
 
 const LaunchesPage = () => {
   const { launches, isLoading, error } = useLaunches();
@@ -11,24 +12,7 @@ const LaunchesPage = () => {
       <h1>Launches</h1>
       <div>
         {launches.map((launch) => (
-          <div key={launch.id}>
-            {launch.links.patch.small && (
-              <img
-                src={launch.links.patch.small}
-                alt={launch.name}
-                width={80}
-              />
-            )}
-            <h3>{launch.name}</h3>
-            <p>{new Date(launch.date_utc).toLocaleDateString()}</p>
-            <p>
-              {launch.upcoming
-                ? "Upcoming"
-                : launch.success
-                  ? "Successful"
-                  : "Failed"}
-            </p>
-          </div>
+          <LaunchCard key={launch.id} launch={launch} />
         ))}
       </div>
     </div>
