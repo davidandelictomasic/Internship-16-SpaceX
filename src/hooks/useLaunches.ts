@@ -3,10 +3,13 @@ import type { Launch, LaunchesResponse } from "../types/launch";
 
 const useLaunches = () => {
   const [launches, setLaunches] = useState<Launch[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchLaunches = async () => {
+      setIsLoading(true);
+
       try {
         const response = await fetch(
           "https://api.spacexdata.com/v4/launches/query",
@@ -32,13 +35,15 @@ const useLaunches = () => {
         setLaunches(data.docs);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to fetch launches");
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchLaunches();
   }, []);
 
-  return { launches, error };
+  return { launches, isLoading, error };
 };
 
 export default useLaunches;
