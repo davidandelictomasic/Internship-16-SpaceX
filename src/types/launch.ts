@@ -31,3 +31,10 @@ export interface LaunchesResponse {
   hasNextPage: boolean;
   hasPrevPage: boolean;
 }
+
+export interface UseLaunchResult {
+  launch: Launch | null;
+  rocketName: string | null;
+  isLoading: boolean;
+  error: string | null;
+}

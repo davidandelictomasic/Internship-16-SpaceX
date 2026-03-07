@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import type { Launch } from "../types/launch";
 
 interface LaunchCardProps {
@@ -6,7 +7,7 @@ interface LaunchCardProps {
 
 const LaunchCard = ({ launch }: LaunchCardProps) => {
   return (
-    <div>
+    <Link to={`/launches/${launch.id}`}>
       {launch.links.patch.small && (
         <img
           src={launch.links.patch.small}
@@ -23,7 +24,7 @@ const LaunchCard = ({ launch }: LaunchCardProps) => {
             ? "Successful"
             : "Failed"}
       </p>
-    </div>
+    </Link>
   );
 };
 
