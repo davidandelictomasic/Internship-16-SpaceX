@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
 import type { Launch, LaunchesResponse } from "../types/launch";
 
-const useLaunches = () => {
+const useLaunches = (page: number) => {
   const [launches, setLaunches] = useState<Launch[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [totalPages, setTotalPages] = useState(0);
+  const [hasNextPage, setHasNextPage] = useState(false);
+  const [hasPrevPage, setHasPrevPage] = useState(false);
 
   useEffect(() => {
     const fetchLaunches = async () => {
@@ -19,7 +22,7 @@ const useLaunches = () => {
             body: JSON.stringify({
               query: {},
               options: {
-                page: 1,
+                page,
                 limit: 10,
                 sort: { date_unix: -1 },
               },
@@ -33,6 +36,9 @@ const useLaunches = () => {
 
         const data: LaunchesResponse = await response.json();
         setLaunches(data.docs);
+        setTotalPages(data.totalPages);
+        setHasNextPage(data.hasNextPage);
+        setHasPrevPage(data.hasPrevPage);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to fetch launches");
       } finally {
@@ -41,9 +47,9 @@ const useLaunches = () => {
     };
 
     fetchLaunches();
-  }, []);
+  }, [page]);
 
-  return { launches, isLoading, error };
+  return { launches, isLoading, error, totalPages, hasNextPage, hasPrevPage };
 };
 
 export default useLaunches;
