@@ -7,12 +7,11 @@ const LaunchesPage = () => {
   const { launches, isLoading, error, totalPages, hasNextPage, hasPrevPage } =
     useLaunches(page);
 
-  if (isLoading) return <p>Loading launches...</p>;
-  if (error) return <p>Error: {error}</p>;
-
   return (
     <div>
       <h1>Launches</h1>
+      {isLoading && <p>Loading launches...</p>}
+      {error && <p>Error: {error}</p>}
       <div>
         {launches.map((launch) => (
           <LaunchCard key={launch.id} launch={launch} />
