@@ -4,6 +4,10 @@ export interface Ship {
   type: string;
   active: boolean;
   image: string | null;
+  roles: string[];
+  home_port: string | null;
+  year_built: number | null;
+  link: string | null;
 }
 
 export interface ShipsResponse {
