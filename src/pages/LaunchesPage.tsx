@@ -1,6 +1,7 @@
 import { useState } from "react";
 import useLaunches from "../hooks/useLaunches";
 import LaunchCard from "../components/LaunchCard";
+import styles from "./LaunchesPage.module.css";
 
 const LaunchesPage = () => {
   const [page, setPage] = useState(1);
@@ -9,19 +10,19 @@ const LaunchesPage = () => {
 
   return (
     <div>
-      <h1>Launches</h1>
+      <h1 className={styles.title}>Launches</h1>
       {isLoading && <p>Loading launches...</p>}
       {error && <p>Error: {error}</p>}
-      <div>
+      <div className={styles.list}>
         {launches.map((launch) => (
           <LaunchCard key={launch.id} launch={launch} />
         ))}
       </div>
-      <div>
+      <div className={styles.pagination}>
         <button disabled={!hasPrevPage} onClick={() => setPage(page - 1)}>
           Previous
         </button>
-        <span>
+        <span className={styles.pageInfo}>
           Page {page} of {totalPages}
         </span>
         <button disabled={!hasNextPage} onClick={() => setPage(page + 1)}>

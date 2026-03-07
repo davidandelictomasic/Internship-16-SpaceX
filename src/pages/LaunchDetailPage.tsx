@@ -1,12 +1,13 @@
 import { useParams } from "react-router-dom";
 import useLaunch from "../hooks/useLaunch";
+import styles from "./LaunchDetailPage.module.css";
 
 const LaunchDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const { launch, rocketName, isLoading, error } = useLaunch(id!);
 
   return (
-    <div>
+    <div className={styles.container}>
       {isLoading && <p>Loading launch...</p>}
       {error && <p>Error: {error}</p>}
       {launch && (
@@ -15,14 +16,14 @@ const LaunchDetailPage = () => {
             <img
               src={launch.links.patch.large}
               alt={launch.name}
-              width={200}
+              className={styles.patch}
             />
           )}
 
-          <h1>{launch.name}</h1>
-          <p>{new Date(launch.date_utc).toLocaleDateString()}</p>
-          <p>Rocket: {rocketName ?? "Unknown"}</p>
-          <p>
+          <h1 className={styles.name}>{launch.name}</h1>
+          <p className={styles.meta}>{new Date(launch.date_utc).toLocaleDateString()}</p>
+          <p className={styles.meta}>Rocket: {rocketName ?? "Unknown"}</p>
+          <p className={styles.status}>
             Status:{" "}
             {launch.upcoming
               ? "Upcoming"
@@ -31,13 +32,13 @@ const LaunchDetailPage = () => {
                 : "Failed"}
           </p>
 
-          {launch.details && <p>{launch.details}</p>}
+          {launch.details && <p className={styles.details}>{launch.details}</p>}
 
           {launch.failures.length > 0 && (
-            <div>
-              <h3>Failure Details</h3>
+            <div className={styles.failureSection}>
+              <h3 className={styles.failureTitle}>Failure Details</h3>
               {launch.failures.map((failure, index) => (
-                <p key={index}>{failure.reason}</p>
+                <p key={index} className={styles.failureReason}>{failure.reason}</p>
               ))}
             </div>
           )}
@@ -47,6 +48,7 @@ const LaunchDetailPage = () => {
               href={`https://www.youtube.com/watch?v=${launch.links.youtube_id}`}
               target="_blank"
               rel="noopener noreferrer"
+              className={styles.youtubeLink}
             >
               Watch on YouTube
             </a>
