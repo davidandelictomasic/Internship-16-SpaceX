@@ -38,3 +38,17 @@ export interface UseLaunchResult {
   isLoading: boolean;
   error: string | null;
 }
+
+export interface CountdownTime {
+  days: number;
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
+
+export interface UseNextLaunchResult {
+  launch: Launch | null;
+  countdown: CountdownTime | null;
+  isLoading: boolean;
+  error: string | null;
+}
