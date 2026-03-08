@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import type { Ship, ShipsResponse } from "../types/ship";
 
-const useShips = () => {
+const useShips = (search: string) => {
   const [ships, setShips] = useState<Ship[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -10,6 +10,12 @@ const useShips = () => {
     const fetchShips = async () => {
       setIsLoading(true);
 
+      const query: Record<string, unknown> = {};
+
+      if (search) {
+        query.name = { $regex: search, $options: "i" };
+      }
+
       try {
         const response = await fetch(
           "https://api.spacexdata.com/v4/ships/query",
@@ -17,7 +23,7 @@ const useShips = () => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              query: {},
+              query,
               options: {
                 page: 1,
                 limit: 10,
@@ -40,7 +46,7 @@ const useShips = () => {
     };
 
     fetchShips();
-  }, []);
+  }, [search]);
 
   return { ships, isLoading, error };
 };

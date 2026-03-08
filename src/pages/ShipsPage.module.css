@@ -3,6 +3,21 @@
   margin-bottom: 1.5rem;
 }
 
+.searchInput {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background-color: var(--bg-card);
+  color: var(--text-primary);
+  font-size: 0.875rem;
+  margin-bottom: 1.5rem;
+}
+
+.searchInput::placeholder {
+  color: var(--text-secondary);
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
