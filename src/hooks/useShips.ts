@@ -1,10 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import type { Ship, ShipsResponse } from "../types/ship";
 
 const useShips = (search: string) => {
   const [ships, setShips] = useState<Ship[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(1);
+  const [hasNextPage, setHasNextPage] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setShips([]);
+    setPage(1);
+    setHasNextPage(false);
+  }, [search]);
 
   useEffect(() => {
     const fetchShips = async () => {
@@ -25,7 +33,7 @@ const useShips = (search: string) => {
             body: JSON.stringify({
               query,
               options: {
-                page: 1,
+                page,
                 limit: 10,
               },
             }),
@@ -37,7 +45,8 @@ const useShips = (search: string) => {
         }
 
         const data: ShipsResponse = await response.json();
-        setShips(data.docs);
+        setShips((prev) => (page === 1 ? data.docs : [...prev, ...data.docs]));
+        setHasNextPage(data.hasNextPage);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Failed to fetch ships");
       } finally {
@@ -46,9 +55,15 @@ const useShips = (search: string) => {
     };
 
     fetchShips();
-  }, [search]);
+  }, [page, search]);
 
-  return { ships, isLoading, error };
+  const loadMore = useCallback(() => {
+    if (hasNextPage && !isLoading) {
+      setPage((prev) => prev + 1);
+    }
+  }, [hasNextPage, isLoading]);
+
+  return { ships, isLoading, error, hasNextPage, loadMore };
 };
 
 export default useShips;
