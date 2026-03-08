@@ -1,73 +1,47 @@
-# React + TypeScript + Vite
+# SpaceX Explorer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+React aplikacija za pregled SpaceX lansiranja i brodova koristeći [SpaceX API v4](https://github.com/r-spacex/SpaceX-API).
 
-Currently, two official plugins are available:
+## Pokretanje projekta
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+# Instalacija paketa
+npm install
 
-## React Compiler
+# Pokretanje razvojnog servera
+npm run dev
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Build za produkciju
+npm run build
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Implementirane značajke
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+### Stranice
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- **Početna stranica** — prikaz podataka o tvrtki SpaceX + odbrojavanje do sljedećeg lansiranja
+- **Launches stranica** — popis lansiranja sa server-side paginacijom, pretragom i filterima (uspješna, neuspješna, nadolazeća)
+- **Launch Detail stranica** — detalji o pojedinom lansiranju (raketa, status, YouTube link, razlozi neuspjeha)
+- **Ships stranica** — popis brodova s pretragom i infinite scroll-om (Intersection Observer API)
+- **Ship Detail stranica** — detalji o pojedinom brodu (uloge, luka, godina izgradnje)
+- **404 stranica** — za nepostojeće rute
+
+### Tehničke značajke
+
+- **React Router v7** — navigacija s BrowserRouter, Routes, NavLink, useParams, useSearchParams
+- **TypeScript** — tipovi za sve komponente, hookove i API odgovore
+- **CSS Modules** — stilizacija svake komponente zasebno, korištenje CSS varijabli za temu
+- **Dark / Light tema** — prebacivanje putem Context API-ja, spremanje u localStorage
+- **Custom hookovi** — useLaunches, useLaunch, useShips, useShip, useCompany, useNextLaunch, useLaunchFilters
+- **HOC (Higher-Order Component)** — withLoading za prikaz spinnera tijekom učitavanja podataka
+- **Context API** — ThemeContext za upravljanje temom kroz cijelu aplikaciju
+- **Intersection Observer** — infinite scroll za brodove
+- **Responsive dizajn** — prilagodba za mobilne uređaje
+
+## Tehnologije
+
+- React 19
+- TypeScript
+- Vite
+- React Router v7
+- CSS Modules
