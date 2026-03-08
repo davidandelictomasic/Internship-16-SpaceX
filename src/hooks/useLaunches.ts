@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import type { Launch, LaunchesResponse } from "../types/launch";
 
-const useLaunches = (page: number) => {
+const useLaunches = (page: number, search: string) => {
   const [launches, setLaunches] = useState<Launch[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -13,6 +13,12 @@ const useLaunches = (page: number) => {
     const fetchLaunches = async () => {
       setIsLoading(true);
 
+      const query: Record<string, unknown> = {};
+
+      if (search) {
+        query.name = { $regex: search, $options: "i" };
+      }
+
       try {
         const response = await fetch(
           "https://api.spacexdata.com/v4/launches/query",
@@ -20,7 +26,7 @@ const useLaunches = (page: number) => {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
-              query: {},
+              query,
               options: {
                 page,
                 limit: 10,
@@ -47,7 +53,7 @@ const useLaunches = (page: number) => {
     };
 
     fetchLaunches();
-  }, [page]);
+  }, [page, search]);
 
   return { launches, isLoading, error, totalPages, hasNextPage, hasPrevPage };
 };
