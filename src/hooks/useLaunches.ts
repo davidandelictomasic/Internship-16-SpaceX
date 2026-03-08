@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import type { Launch, LaunchesResponse } from "../types/launch";
 
-const useLaunches = (page: number, search: string) => {
+const useLaunches = (page: number, search: string, filter: string) => {
   const [launches, setLaunches] = useState<Launch[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -17,6 +17,14 @@ const useLaunches = (page: number, search: string) => {
 
       if (search) {
         query.name = { $regex: search, $options: "i" };
+      }
+
+      if (filter === "successful") {
+        query.success = true;
+      } else if (filter === "failed") {
+        query.success = false;
+      } else if (filter === "upcoming") {
+        query.upcoming = true;
       }
 
       try {
@@ -53,7 +61,7 @@ const useLaunches = (page: number, search: string) => {
     };
 
     fetchLaunches();
-  }, [page, search]);
+  }, [page, search, filter]);
 
   return { launches, isLoading, error, totalPages, hasNextPage, hasPrevPage };
 };

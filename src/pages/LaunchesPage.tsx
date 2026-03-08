@@ -1,24 +1,13 @@
-import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
 import useLaunches from "../hooks/useLaunches";
+import useLaunchFilters from "../hooks/useLaunchFilters";
 import LaunchCard from "../components/LaunchCard";
 import styles from "./LaunchesPage.module.css";
 
 const LaunchesPage = () => {
-  const [searchParams, setSearchParams] = useSearchParams();
-  const search = searchParams.get("search") || "";
-  const [page, setPage] = useState(1);
+  const { search, filter, page, setPage, handleSearch, handleFilter } =
+    useLaunchFilters();
   const { launches, isLoading, error, totalPages, hasNextPage, hasPrevPage } =
-    useLaunches(page, search);
-
-  const handleSearch = (value: string) => {
-    setPage(1);
-    if (value) {
-      setSearchParams({ search: value });
-    } else {
-      setSearchParams({});
-    }
-  };
+    useLaunches(page, search, filter === "all" ? "" : filter);
 
   return (
     <div>
@@ -30,6 +19,16 @@ const LaunchesPage = () => {
         value={search}
         onChange={(e) => handleSearch(e.target.value)}
       />
+      <select
+        className={styles.filterSelect}
+        value={filter}
+        onChange={(e) => handleFilter(e.target.value)}
+      >
+        <option value="all">All</option>
+        <option value="successful">Successful</option>
+        <option value="failed">Failed</option>
+        <option value="upcoming">Upcoming</option>
+      </select>
       {isLoading && <p>Loading launches...</p>}
       {error && <p>Error: {error}</p>}
       <div className={styles.list}>
