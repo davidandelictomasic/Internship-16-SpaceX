@@ -7,16 +7,17 @@
   align-items: center;
   gap: 0.25rem;
   padding: 0.4rem 0.8rem;
-  border: 1px solid #ccc;
+  border: 1px solid var(--border);
   border-radius: 6px;
-  background-color: #fff;
+  background-color: var(--bg-card);
+  color: var(--text-primary);
   cursor: pointer;
   font-size: 0.875rem;
   margin-bottom: 1.5rem;
 }
 
 .backButton:hover {
-  background-color: #e0e0e0;
+  background-color: var(--border);
 }
 
 .image {
@@ -34,7 +35,7 @@
 
 .meta {
   font-size: 0.875rem;
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 0.25rem;
 }
 

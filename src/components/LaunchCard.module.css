@@ -3,9 +3,9 @@
   align-items: center;
   gap: 1rem;
   padding: 1rem;
-  background-color: #fff;
+  background-color: var(--bg-card);
   border-radius: 8px;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--border);
   transition: box-shadow 0.2s;
 }
 
@@ -32,7 +32,7 @@
 
 .date {
   font-size: 0.875rem;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .status {
