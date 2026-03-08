@@ -1,6 +1,7 @@
 import useLaunches from "../hooks/useLaunches";
 import useLaunchFilters from "../hooks/useLaunchFilters";
 import LaunchCard from "../components/LaunchCard";
+import Spinner from "../components/Spinner";
 import styles from "./LaunchesPage.module.css";
 
 const LaunchesPage = () => {
@@ -29,7 +30,7 @@ const LaunchesPage = () => {
         <option value="failed">Failed</option>
         <option value="upcoming">Upcoming</option>
       </select>
-      {isLoading && <p>Loading launches...</p>}
+      {isLoading && <Spinner />}
       {error && <p>Error: {error}</p>}
       <div className={styles.list}>
         {launches.map((launch) => (

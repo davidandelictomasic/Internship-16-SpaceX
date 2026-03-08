@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
 import useShips from "../hooks/useShips";
 import ShipCard from "../components/ShipCard";
+import Spinner from "../components/Spinner";
 import styles from "./ShipsPage.module.css";
 
 const ShipsPage = () => {
@@ -52,7 +53,7 @@ const ShipsPage = () => {
           <ShipCard key={ship.id} ship={ship} />
         ))}
       </div>
-      {isLoading && <p>Loading ships...</p>}
+      {isLoading && <Spinner />}
       {hasNextPage && <div ref={bottomRef} />}
     </div>
   );
